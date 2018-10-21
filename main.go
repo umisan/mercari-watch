@@ -1,7 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"github.com/umisan/mercari-watch/lib/crawler"
+)
 
 func main() {
-	fmt.Println("vim-go")
+	crawler.Start()
 }
