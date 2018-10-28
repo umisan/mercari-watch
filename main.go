@@ -1,9 +1,12 @@
 package main
 
 import (
-	"github.com/umisan/mercari-watch/lib/crawler"
+	"io/ioutil"
+
+	"github.com/umisan/mercari-watch/lib/parser"
 )
 
 func main() {
-	crawler.Start()
+	html_string, _ := ioutil.ReadFile("/home/umino/go/src/github.com/umisan/mercari-watch/lib/test.html")
+	parser.Get_item_list(string(html_string))
 }
