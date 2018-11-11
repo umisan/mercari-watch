@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/umisan/mercari-watch/config"
+	"github.com/umisan/mercari-watch/lib/parser"
 )
 
 //コスメ香水美容の売り切れ品検索
@@ -30,9 +31,27 @@ func search() string {
 
 func Start() {
 	//クローラーの開始関数
+	item_list := []parser.Entry{}      //パース結果を格納するスライス
+	item_list_prev := []parser.Entry{} //一つ前のパース結果を格納するスライス
 	for {
 		result := search()
-		fmt.Println(result)
+		item_list_prev = item_list
+		item_list = parser.Get_item_list(result)
+		//前回との差分を出力
+		if len(item_list_prev) == 0 {
+			for _, v := range item_list {
+				fmt.Println(v)
+			}
+		} else {
+			for _, v := range item_list {
+				if v == item_list_prev[0] {
+					break
+				} else {
+					fmt.Println(v)
+				}
+			}
+		}
+		fmt.Println()
 		time.Sleep(config.CRAWL_DURATION * time.Minute)
 	}
 }
