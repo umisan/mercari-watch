@@ -44,12 +44,10 @@ func AddManyItems(items []Item) {
 	}
 	vals, sqlStr := db.GenerateSqlForMultiRows(temp)
 	sqlStr = "INSERT INTO items (name, price) VALUES " + sqlStr
-	fmt.Println(sqlStr)
 	stmt, err := dbc.Prepare(sqlStr)
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(stmt)
 	result, err := stmt.Exec(vals...)
 	if err != nil {
 		log.Fatal(err)

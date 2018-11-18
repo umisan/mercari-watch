@@ -8,7 +8,14 @@ import (
 )
 
 type Entry struct {
-	name, price string
+	Name, Price string
+}
+
+//円マークと,を取り除いてintに変換
+func stringToPrice(input string) string {
+	input = strings.Replace(input, ",", "", -1)
+	input = strings.Replace(input, "¥ ", "", -1)
+	return input
 }
 
 //<section class="items-box">を検索
@@ -37,13 +44,13 @@ func get_name_price(n *html.Node, entry *Entry) {
 	if n.Type == html.ElementNode && n.Data == "h3" {
 		for _, attr := range n.Attr {
 			if attr.Val == "items-box-name font-2" {
-				entry.name = n.FirstChild.Data
+				entry.Name = n.FirstChild.Data
 			}
 		}
 	} else if n.Type == html.ElementNode && n.Data == "div" {
 		for _, attr := range n.Attr {
 			if attr.Val == "items-box-price font-5" {
-				entry.price = n.FirstChild.Data
+				entry.Price = stringToPrice(n.FirstChild.Data)
 			}
 		}
 	}
