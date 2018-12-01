@@ -1,7 +1,6 @@
 package crawler
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -43,7 +42,7 @@ func Start() {
 		new_items := []item.Item{}
 		if len(item_list_prev) == 0 {
 			for _, v := range item_list {
-				fmt.Println(v)
+				//fmt.Println(v)
 				new_item := item.Item{}
 				new_item.Name = v.Name
 				new_price, err := strconv.Atoi(v.Price)
@@ -58,7 +57,7 @@ func Start() {
 				if v == item_list_prev[0] {
 					break
 				} else {
-					fmt.Println(v)
+					//fmt.Println(v)
 					new_item := item.Item{}
 					new_item.Name = v.Name
 					new_price, err := strconv.Atoi(v.Price)
@@ -70,7 +69,7 @@ func Start() {
 				}
 			}
 		}
-		fmt.Println()
+		//fmt.Println()
 		item.AddManyItems(new_items)
 		time.Sleep(time.Duration(config.CRAWL_DURATION) * time.Minute)
 	}

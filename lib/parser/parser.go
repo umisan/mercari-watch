@@ -18,6 +18,27 @@ func stringToPrice(input string) string {
 	return input
 }
 
+//EntryをNameの空白区切りで分割
+func divideEntryByName(entry Entry) []Entry {
+	result := []Entry{}
+	//最初に半角
+	separeted := strings.Split(entry.Name, " ")
+	//次に全角
+	//空白が連続していたりすると""が配列に残るので削除
+	for _, v := range separeted {
+		temp := strings.Split(v, "　")
+		for _, item_name := range temp {
+			if item_name != "" {
+				item := Entry{}
+				item.Name = item_name
+				item.Price = entry.Price
+				result = append(result, item)
+			}
+		}
+	}
+	return result
+}
+
 //<section class="items-box">を検索
 //section内の
 //<div class="items-box-body">
@@ -67,5 +88,9 @@ func Get_item_list(html_string string) []Entry {
 	}
 	list := []Entry{}
 	dfs(doc, &list)
-	return list
+	result := []Entry{}
+	for _, entry := range list {
+		result = append(result, divideEntryByName(entry)...)
+	}
+	return result
 }
